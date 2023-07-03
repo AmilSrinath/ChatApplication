@@ -1,4 +1,4 @@
-package com.example.chatapplication;
+package lk.ijse.chatapplication;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
@@ -16,15 +16,13 @@ import java.net.Socket;
 
 public class ServerFormContoller extends Application {
     static String message = "";
-
     public JFXTextArea txtAreaSever;
     public JFXTextField txtServer;
     public JFXButton btnServerSend;
 
     DataOutputStream dataOutputStream;
     DataInputStream dataInputStream;
-
-    ServerSocket serverSocket;
+    private ServerSocket serverSocket;
     Socket socket;
 
     public static void main(String[] args)  {
@@ -61,5 +59,9 @@ public class ServerFormContoller extends Application {
         stage.setTitle("Server");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void btnAddOnAction(ActionEvent actionEvent) {
+
     }
 }

@@ -1,4 +1,4 @@
-package com.example.chatapplication;
+package lk.ijse.chatapplication;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;

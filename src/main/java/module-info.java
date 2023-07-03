@@ -4,6 +4,6 @@ module com.example.chatapplication {
     requires com.jfoenix;
 
 
-    opens com.example.chatapplication to javafx.fxml;
-    exports com.example.chatapplication;
+    opens lk.ijse.chatapplication to javafx.fxml;
+    exports lk.ijse.chatapplication;
 }
