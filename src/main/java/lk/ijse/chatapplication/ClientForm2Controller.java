@@ -21,8 +21,12 @@ public class ClientForm2Controller extends Application {
     public JFXButton btnClientSend;
     DataOutputStream dataOutputStream;
     DataInputStream dataInputStream;
-    Socket socket2;
+    Socket socket;
     static String message = "";
+
+    public ClientForm2Controller(Socket socket) {
+        this.socket=socket;
+    }
 
     public static void main(String[] args) {
         launch(args);
@@ -30,9 +34,8 @@ public class ClientForm2Controller extends Application {
     public void initialize(){
         new Thread(()->{
             try {
-                socket2 = new Socket("localhost",4006);
-                dataInputStream = new DataInputStream(socket2.getInputStream());
-                dataOutputStream = new DataOutputStream(socket2.getOutputStream());
+                dataInputStream = new DataInputStream(socket.getInputStream());
+                dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 while (!message.equals("finish")){
                     message = dataInputStream.readUTF();
                     txtAreaClient.appendText("\nServer : "+message);
