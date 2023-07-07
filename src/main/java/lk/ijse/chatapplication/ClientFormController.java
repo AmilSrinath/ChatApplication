@@ -1,16 +1,9 @@
 package lk.ijse.chatapplication;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -27,13 +20,9 @@ import java.io.*;
 import java.net.Socket;
 
 public class ClientFormController extends Thread{
-    public JFXTextArea txtAreaClient;
     public TextField txtClient;
-    public JFXButton btnClientSend;
     public VBox vBox;
     public Label lblClientName;
-    DataOutputStream dataOutputStream;
-    DataInputStream dataInputStream;
     PrintWriter writer;
 
     BufferedReader reader;
@@ -44,36 +33,15 @@ public class ClientFormController extends Thread{
 
     public void initialize(){
         lblClientName.setText(AddNewUserFormController.username);
-        /*new Thread(()->{*/
-            try {
-                socket = new Socket("localhost",6000);
-                System.out.println("Socket is connected with server!");
-                reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                writer = new PrintWriter(socket.getOutputStream(), true);
-                /*while (!message.equals("finish")){
-                    message = dataInputStream.readUTF();
-                    txtAreaClient.appendText("\nServer : "+message);
-                }*/
-                this.start();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        /*}).start();*/
-
-
-        /*new Thread(()->{
-            try {
-                socket = new Socket("localhost",4005);
-                dataInputStream = new DataInputStream(socket.getInputStream());
-                dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                while (!message.equals("finish")){
-                    message = dataInputStream.readUTF();
-                    txtAreaClient.appendText("\nServer : "+message);
-                }
-            }catch (IOException e){
-                throw new RuntimeException(e);
-            }
-        }).start();*/
+        try {
+            socket = new Socket("localhost",6000);
+            System.out.println("Socket is connected with server!");
+            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            writer = new PrintWriter(socket.getOutputStream(), true);
+            this.start();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
     @Override
     public void run(){
@@ -115,7 +83,6 @@ public class ClientFormController extends Thread{
 
                     HBox hBox = new HBox(10);
                     hBox.setAlignment(Pos.BOTTOM_RIGHT);
-
 
                     if (!cmd.equalsIgnoreCase(lblClientName.getText())) {
                         vBox.setAlignment(Pos.TOP_LEFT);
