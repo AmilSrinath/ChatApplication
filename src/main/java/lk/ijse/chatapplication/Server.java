@@ -1,14 +1,11 @@
 package lk.ijse.chatapplication;
 
-import javafx.event.ActionEvent;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ServerFormContoller {
-
+public class Server {
     private static ArrayList<Clients> clientsArrayList = new ArrayList<>();
 
     public static void Server() throws IOException {

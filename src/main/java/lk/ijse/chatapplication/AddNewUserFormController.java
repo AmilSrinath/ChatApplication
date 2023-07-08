@@ -46,9 +46,9 @@ public class AddNewUserFormController extends Application implements Initializab
         stage.show();
 
         new Thread(()->{
-            ServerFormContoller serverFormContoller = new ServerFormContoller();
+            Server server = new Server();
             try {
-                serverFormContoller.Server();
+                server.Server();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -79,7 +79,6 @@ public class AddNewUserFormController extends Application implements Initializab
 
     public boolean searchArray(String username){
         for (int i = 0; i < arrayList.size(); i++) {
-            System.out.println("ID : "+arrayList.get(i));
             if (arrayList.get(i).equalsIgnoreCase(username)){
                 return false;
             }

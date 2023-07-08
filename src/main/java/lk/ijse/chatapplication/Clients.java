@@ -7,9 +7,6 @@ import java.util.ArrayList;
 public class Clients extends Thread{
     private ArrayList<Clients> clientsArrayList;
     Socket socket;
-    DataInputStream inputStream;
-    DataOutputStream outputStream;
-
     private BufferedReader reader;
     private PrintWriter writer;
 

@@ -1,5 +1,6 @@
 package lk.ijse.chatapplication;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -9,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -20,9 +23,31 @@ import java.io.*;
 import java.net.Socket;
 
 public class ClientFormController extends Thread{
+    private final String[] emojis = {
+            "\uD83D\uDE00", // 😀
+            "\uD83D\uDE01", // 😁
+            "\uD83D\uDE02", // 😂
+            "\uD83D\uDE03", // 🤣
+            "\uD83D\uDE04", // 😄
+            "\uD83D\uDE05", // 😅
+            "\uD83D\uDE06", // 😆
+            "\uD83D\uDE07", // 😇
+            "\uD83D\uDE09", // 😉
+            "\uD83D\uDE0A", // 😊
+            "\uD83D\uDE0B", // 😋
+            "\uD83D\uDE0C", // 😌
+            "\uD83D\uDE0D", // 😍
+            "\uD83D\uDE0E", // 😎
+            "\uD83D\uDE0F", // 😏
+            "\uD83D\uDE13"  // 😓
+    };
+
+
     public TextField txtClient;
     public VBox vBox;
     public Label lblClientName;
+    public AnchorPane emojiPane;
+    public GridPane emojiGridpane;
     PrintWriter writer;
 
     BufferedReader reader;
@@ -32,6 +57,8 @@ public class ClientFormController extends Thread{
     private File filePath;
 
     public void initialize(){
+        emojiLoad();
+        emojiPane.setVisible(false);
         lblClientName.setText(AddNewUserFormController.username);
         try {
             socket = new Socket("localhost",6000);
@@ -43,6 +70,39 @@ public class ClientFormController extends Thread{
             e.printStackTrace();
         }
     }
+
+    public void emojiLoad(){
+        int buttonIndex = 0;
+        for (int row = 0; row < 4; row++) {
+            for (int column = 0; column < 4; column++) {
+                if (buttonIndex < emojis.length) {
+                    String emoji = emojis[buttonIndex];
+                    JFXButton emojiButton = createEmojiButton(emoji);
+                    emojiGridpane.add(emojiButton, column, row);
+                    buttonIndex++;
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    private JFXButton createEmojiButton(String emoji) {
+        JFXButton button = new JFXButton(emoji);
+        button.getStyleClass().add("emoji-button");
+        button.setOnAction(this::emojiButtonAction);
+        button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        GridPane.setFillWidth(button, true);
+        GridPane.setFillHeight(button, true);
+        button.setStyle("-fx-font-size: 25; -fx-text-fill: black; -fx-background-color: #F0F0F0; -fx-border-radius: 50");
+        return button;
+    }
+
+    private void emojiButtonAction(ActionEvent event) {
+        JFXButton button = (JFXButton) event.getSource();
+        txtClient.appendText(button.getText());
+    }
+
     @Override
     public void run(){
         try {
@@ -104,7 +164,7 @@ public class ClientFormController extends Thread{
                     Platform.runLater(() -> vBox.getChildren().addAll(hBox));
 
 
-                } else {
+                }else {
                     TextFlow tempFlow = new TextFlow();
 
                     if (!cmd.equalsIgnoreCase(lblClientName.getText() + ":")) {
@@ -169,5 +229,13 @@ public class ClientFormController extends Thread{
         fileChooser.setTitle("Open Image");
         this.filePath = fileChooser.showOpenDialog(stage);
         writer.println(lblClientName.getText() + " " + "img" + filePath.getPath());
+    }
+
+    public void btnEmojiOnMouseClicked(MouseEvent mouseEvent) {
+        emojiPane.setVisible(true);
+    }
+
+    public void btnOnMouseExited(MouseEvent mouseEvent) {
+        emojiPane.setVisible(false);
     }
 }
